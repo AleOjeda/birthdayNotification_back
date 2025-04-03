@@ -128,3 +128,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# ignora wwebdjs 
+.wwebjs_auth/
+.wwebjs_cache/
+
+# ignora migraciones de bbdd
+database/migrations/
