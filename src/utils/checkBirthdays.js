@@ -7,11 +7,11 @@ const customerHappyBirhdayList = async (req, res) => {
     const customerHappyBirhdayList = [];
     for (const customer of customers) {
       // Convertir la fecha de cumpleaños desde string a Date correctamente
-      const birthday = new Date(customer.birthday + "T00:00:00Z");
-      // Comparar solo mes y día, ignorando el año (usando UTC para evitar desfases)
+      const birthday = new Date(customer.birthday + "T00:00:00");
+      // Comparar solo mes y día, ignorando el año (usando horario local)
       if (
-        today.getUTCMonth() === birthday.getUTCMonth() &&
-        today.getUTCDate() === birthday.getUTCDate()
+        today.getMonth() === birthday.getMonth() &&
+        today.getDate() === birthday.getDate()
       ) {
         customerHappyBirhdayList.push(customer);
         console.log(`🎉 Hoy es el cumpleaños de: ${customer.name} 🥳`);
