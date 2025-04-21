@@ -57,7 +57,12 @@ function initWhatsapp(socketIo) {
   });
 
   // Iniciar cliente de WhatsApp
-  client.initialize();
+
+  try {
+    client.initialize();
+  } catch (err) {
+    console.error("❌ Error al inicializar WhatsApp Web:", err);
+  }
 }
 const getAllGroups = async () => {
   if (!client) {
@@ -105,6 +110,10 @@ const sendBirthdayMessages = async (happyCustomers, whatsappNumber) => {
 //   }
 // };
 
-module.exports = { initWhatsapp, getAllGroups, sendBirthdayMessages };
+module.exports = {
+  initWhatsapp,
+  getAllGroups,
+  sendBirthdayMessages,
+};
 
 // module.exports = { client, sendBirthdayMessages, getGroupByName, getAllGroups };
