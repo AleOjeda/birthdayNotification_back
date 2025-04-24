@@ -3,9 +3,11 @@ const qrcode = require("qrcode");
 
 let io; // variable para almacenar "io"
 let client;
+let isLoggedIn = false; // Estado de conexión inicial
 function initWhatsapp(socketIo) {
   io = socketIo;
-
+  // io es la conexión de websocket con todo usuario que escuche.
+  //cuando uso socket, estoy hablando particularmente hacia cada conexión. muchos usuarios, muchos socket. le hablo a cada uno
   // Inicializar el cliente de WhatsApp
   client = new Client({
     authStrategy: new LocalAuth(),
@@ -43,6 +45,7 @@ function initWhatsapp(socketIo) {
   // Confirmación de conexión
   client.on("ready", () => {
     console.log("✅ WhatsApp Web conectado.");
+    isLoggedIn = true;
     io.emit("ready");
   });
 
@@ -56,9 +59,27 @@ function initWhatsapp(socketIo) {
     io.emit("auth_failure", msg);
   });
 
-  // Iniciar cliente de WhatsApp
+  // *manejo la sesión de whatsapp. Cuando me desconecto, paso a false el isloggedIn, entonces desde el front
+  // solamente recibo si esta o no conectado.
+  client.on("disconnected", () => {
+    console.log("🔌 WhatsApp desconectado.");
+    isLoggedIn = false;
+    io.emit("disconnected");
+  });
+  // *manejo de sesiones, con el io marca la conexión entre ws y el usuario final.
+  // ** con el socker marcaesa conexión, si ya esta logueado por el "ready", emite el already_logged_in
+  io.on("connection", (socket) => {
+    console.log("Usuario conectado:", socket.id);
+    if (isLoggedIn) {
+      socket.emit("already_logged_in"); // Emitir si ya está logueado
+    }
+    socket.on("disconnect", () => {
+      console.log("Usuario desconectado:", socket.id);
+    });
+  });
 
   try {
+    // Iniciar cliente de WhatsApp
     client.initialize();
   } catch (err) {
     console.error("❌ Error al inicializar WhatsApp Web:", err);

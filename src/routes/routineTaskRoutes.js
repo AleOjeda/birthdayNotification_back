@@ -11,6 +11,7 @@ router.post(
   "/sendWhatsappWithHappyBirthdays",
   routineTaskController.sendWhatsappWithHappyBirthdays
 );
+router.get("/limpiarSesion", routineTaskController.limpiarSesion);
 // router.get("/:id", customerController.getById);
 // router.post("/", customerController.create);
 // router.put("/:id", customerController.update);
