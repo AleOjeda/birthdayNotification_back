@@ -14,7 +14,9 @@ const customerHappyBirhdayList = async (req, res) => {
         today.getDate() === birthday.getDate()
       ) {
         customerHappyBirhdayList.push(customer);
-        console.log(`🎉 Hoy es el cumpleaños de: ${customer.name} 🥳`);
+        console.log(
+          `🎉 Hoy es el cumpleaños de: ${customer.name} ${customer.last_name} 🥳`
+        );
       }
     }
     return customerHappyBirhdayList;

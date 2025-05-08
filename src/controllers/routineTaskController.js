@@ -28,7 +28,7 @@ const sendWhatsappWithHappyBirthdays = async (req, res) => {
     const whatsappNumber = "120363401804528184@g.us"; // Grupo birthday
     await sendBirthdayMessages(happyCustomers, whatsappNumber);
     console.log("🎉 Tarea diaria ejecutada correctamente.");
-    res.status(200).json("enviado");
+    res.status(200).json("Enviado mensaje de cumpleaños");
   } catch (error) {
     console.log("🎉 Tarea diaria ejecutada con errores.", error.message);
     res.status(500).json("error");

@@ -110,7 +110,7 @@ const sendBirthdayMessages = async (happyCustomers, whatsappNumber) => {
   const numeroWhatsApp = whatsappNumber;
   // `${persona.phone}@c.us`;
   for (const happyCustomer of happyCustomers) {
-    const mensaje = `🎉 Hoy cumple ${happyCustomer.name}! 📅 Teléfono: ${happyCustomer.phone}, Cumpleaños: ${happyCustomer.birthday}`;
+    const mensaje = `🎉 Hoy cumple ${happyCustomer.name} ${happyCustomer.last_name}! 📅 Teléfono: ${happyCustomer.phone}, Cumpleaños: ${happyCustomer.birthday}`;
     try {
       await client.sendMessage(numeroWhatsApp, mensaje);
       console.log(`📨 Mensaje enviado a ${happyCustomer.name}`);

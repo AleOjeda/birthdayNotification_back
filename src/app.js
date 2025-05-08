@@ -18,19 +18,24 @@ const app = express();
 // │ │ └────── Día del mes (1 - 31)
 // │ └──────── Hora (0 - 23)
 // └────────── Minuto (0 - 59)
-
-// cron.schedule("* * * * *", async () => {
-//   console.log("⏰ Ejecutando la tarea automática diaria...");
-//   try {
-//     const happyCustomers = await routineTaskController.checkBirthdays();
-//     // const whatsappNumber = `56941794838@c.us`; //Alejandro
-//     const whatsappNumber = "120363389712368421@g.us";
-//     await sendBirthdayMessages(happyCustomers, whatsappNumber);
-//     console.log("🎉 Tarea diaria ejecutada correctamente.");
-//   } catch (error) {
-//     console.log("🎉 Tarea diaria ejecutada con errores.", error.message);
-//   }
-// });
+cron.schedule("00 10 * * *", async () => {
+  console.log("⏰ Ejecutando la tarea automática diaria...");
+  try {
+    const resp = await fetch(
+      "https://servidorossa.ddns.net/api/routineTask/sendWhatsappWithHappyBirthdays",
+      { method: "POST" }
+    );
+    const data = await resp.json();
+    console.log(data);
+    //     const happyCustomers = await routineTaskController.checkBirthdays();
+    //     // const whatsappNumber = `56941794838@c.us`; //Alejandro
+    //     const whatsappNumber = "120363389712368421@g.us";
+    //     await sendBirthdayMessages(happyCustomers, whatsappNumber);
+    //     console.log("🎉 Tarea diaria ejecutada correctamente.");
+  } catch (error) {
+    console.log("🎉 Tarea diaria ejecutada con errores.", error.message);
+  }
+});
 
 app.use(cors());
 app.use(express.json());
