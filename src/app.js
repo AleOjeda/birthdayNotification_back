@@ -1,3 +1,5 @@
+const cookieParser = require("cookie-parser");
+
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -7,9 +9,10 @@ const userRoutes = require("./routes/userRoutes");
 const routineTaskRoutes = require("./routes/routineTaskRoutes");
 // const routineTaskController = require("./controllers/routineTaskController");
 // const { sendBirthdayMessages, client } = require("./services/whatsappService");
-
 const app = express();
 
+// en server.js antes de routes:
+app.use(cookieParser());
 // Configurar una tarea cron para ejecutarse todos los días a la medianoche
 // * * * * *
 // │ │ │ │ │
@@ -37,7 +40,18 @@ cron.schedule("00 10 * * *", async () => {
   }
 });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: (incomingOrigin, callback) => {
+      // Acepta cualquiera:
+      callback(null, true);
+    },
+    //origin: "*",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Para recibir x-www-form-urlencoded
 app.use("/api/customers", customerRoutes);
